@@ -1,24 +1,22 @@
 """
-Blockchain Data Structure
+Blockchain Implementation
 
-This is a Python implementation of a basic blockchain data
-structure and essential methods for educational purposes.
-It provides a simple framework to help students understand
-the fundamental concepts of blockchain, including blocks,
-hashing, and chain validation, and allows them to experiment
-with its behavior.
+This is a Python implementation of a simple blockchain with
+the ability to add new blocks and validate the integrity of
+the chain.
 
 Author: Kai Lei, Yanming Shao
 """
 
 import hashlib
 import time
+import threading
 
 
 class Block:
     def __init__(self, data, previous_hash):
         """
-        Constructor for the Block class.
+        Constructor for Block class.
 
         Args:
             data (str): The data to be stored in the block.
@@ -36,7 +34,7 @@ class Block:
         Calculate the SHA-256 hash of the block.
 
         Returns:
-            str: The SHA-256 hash of the block.
+            str: The hexadecimal representation of the calculated hash.
         """
         sha = hashlib.sha256()
         sha.update(
@@ -52,10 +50,12 @@ class Block:
 class Blockchain:
     def __init__(self):
         """
-        Constructor for the Blockchain class.
+        Constructor for Blockchain class.
+
         Initializes the blockchain with a genesis block.
         """
         self.chain = [Block("Genesis Block", "0")]
+        self.lock = threading.Lock()  # Lock for accessing the blockchain
 
     def getLatestBlock(self):
         """
@@ -73,9 +73,6 @@ class Blockchain:
         Args:
             newBlock (Block): The new block to be added to the blockchain.
         """
-        newBlock.index = self.getLatestBlock().index + 1
-        newBlock.previousHash = self.getLatestBlock().hash
-        newBlock.hash = newBlock.calculateHash()
         self.chain.append(newBlock)
 
     def isChainValid(self):
@@ -98,4 +95,7 @@ class Blockchain:
                 print(f"Current Previous Hash: {currentBlock.previousHash}")
                 print(f"Previous Block Hash: {previousBlock.hash}\n")
                 return False
+            print(f"Block {currentBlock.index} hash is valid.")
+            print(f"Current Hash: {currentBlock.hash}")
+            print(f"Calculated Hash: {currentBlock.calculateHash()}\n")
         return True
