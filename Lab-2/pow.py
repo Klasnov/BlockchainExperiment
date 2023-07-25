@@ -37,15 +37,8 @@ class ProofOfWork:
         nonce = 0
         while True:
             with blockchain.lock:
-                previousHash = self.blockchain.getLatestBlock().hash
-                block = Block(data, previousHash)
-                block.index = len(self.blockchain.chain)
-                block.timestamp = time.time()
-                block.nonce = nonce
-                block.hash = block.calculateHash()
-                if self.isValidProof(block.hash):
-                    return block
-                nonce += 1
+                pass
+                # TODO: Implementation of PoW algorithm
 
     def isValidProof(self, hash):
         """
@@ -78,7 +71,7 @@ def mineBlocksThread(blockchain, queue, threadNum):
             break
         block = pow.mineBlock(data)
         if block is not None:
-            with blockchain.lock:  # Use the blockchain lock to ensure thread-safe access
+            with blockchain.lock:
                 blockchain.addBlock(block)
                 print(f"Thread {threadNum} mined a block.")
                 print(f"Data: {data}")

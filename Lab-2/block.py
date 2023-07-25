@@ -82,20 +82,4 @@ class Blockchain:
         Returns:
             bool: True if the blockchain is valid, False otherwise.
         """
-        for i in range(1, len(self.chain)):
-            currentBlock = self.chain[i]
-            previousBlock = self.chain[i - 1]
-            if currentBlock.hash != currentBlock.calculateHash():
-                print(f"Block {currentBlock.index} hash is invalid.")
-                print(f"Current Hash: {currentBlock.hash}")
-                print(f"Calculated Hash: {currentBlock.calculateHash()}\n")
-                return False
-            if currentBlock.previousHash != previousBlock.hash:
-                print(f"Block {currentBlock.index} previous_hash is invalid.")
-                print(f"Current Previous Hash: {currentBlock.previousHash}")
-                print(f"Previous Block Hash: {previousBlock.hash}\n")
-                return False
-            print(f"Block {currentBlock.index} hash is valid.")
-            print(f"Current Hash: {currentBlock.hash}")
-            print(f"Calculated Hash: {currentBlock.calculateHash()}\n")
-        return True
+        # TODO: Verify the whole chain
