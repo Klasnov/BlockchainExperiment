@@ -25,12 +25,13 @@ class Block:
             previous_hash (str): The hash of the previous block in the blockchain.
         """
         self.index = 0
+        self.nonce = 0
         self.timestamp = time.time()
         self.data = data
-        self.previous_hash = previous_hash
-        self.hash = self.calculate_hash()
+        self.previousHash = previous_hash
+        self.hash = self.calculateHash()
 
-    def calculate_hash(self):
+    def calculateHash(self):
         """
         Calculate the SHA-256 hash of the block.
 
@@ -38,10 +39,13 @@ class Block:
             str: The SHA-256 hash of the block.
         """
         sha = hashlib.sha256()
-        sha.update(str(self.index).encode('utf-8') +
-                   str(self.timestamp).encode('utf-8') +
-                   str(self.data).encode('utf-8') +
-                   str(self.previous_hash).encode('utf-8'))
+        sha.update(
+            str(self.index).encode('utf-8') +
+            str(self.timestamp).encode('utf-8') +
+            str(self.data).encode('utf-8') +
+            str(self.previousHash).encode('utf-8') +
+            str(self.nonce).encode('utf-8')
+        )
         return sha.hexdigest()
 
 
@@ -53,7 +57,7 @@ class Blockchain:
         """
         self.chain = [Block("Genesis Block", "0")]
 
-    def get_latest_block(self):
+    def getLatestBlock(self):
         """
         Get the latest block in the blockchain.
 
@@ -62,20 +66,19 @@ class Blockchain:
         """
         return self.chain[-1]
 
-    def add_block(self, new_block):
+    def addBlock(self, newBlock):
         """
         Add a new block to the blockchain.
 
         Args:
-            new_block (Block): The new block to be added to the blockchain.
-
+            newBlock (Block): The new block to be added to the blockchain.
         """
-        new_block.index = self.get_latest_block().index + 1
-        new_block.previous_hash = self.get_latest_block().hash
-        new_block.hash = new_block.calculate_hash()
-        self.chain.append(new_block)
+        newBlock.index = self.getLatestBlock().index + 1
+        newBlock.previousHash = self.getLatestBlock().hash
+        newBlock.hash = newBlock.calculateHash()
+        self.chain.append(newBlock)
 
-    def is_chain_valid(self):
+    def isChainValid(self):
         """
         Validate the integrity of the blockchain.
 
@@ -83,10 +86,16 @@ class Blockchain:
             bool: True if the blockchain is valid, False otherwise.
         """
         for i in range(1, len(self.chain)):
-            current_block = self.chain[i]
-            previous_block = self.chain[i - 1]
-            if current_block.hash != current_block.calculate_hash():
+            currentBlock = self.chain[i]
+            previousBlock = self.chain[i - 1]
+            if currentBlock.hash != currentBlock.calculateHash():
+                print(f"Block {currentBlock.index} hash is invalid.")
+                print(f"Current Hash: {currentBlock.hash}")
+                print(f"Calculated Hash: {currentBlock.calculateHash()}\n")
                 return False
-            if current_block.previous_hash != previous_block.hash:
+            if currentBlock.previousHash != previousBlock.hash:
+                print(f"Block {currentBlock.index} previous_hash is invalid.")
+                print(f"Current Previous Hash: {currentBlock.previousHash}")
+                print(f"Previous Block Hash: {previousBlock.hash}\n")
                 return False
         return True
