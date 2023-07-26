@@ -82,4 +82,4 @@ class Blockchain:
         Returns:
             bool: True if the blockchain is valid, False otherwise.
         """
-        # TODO: Verify the whole chain
+        # TODO: Your code here

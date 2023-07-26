@@ -38,7 +38,7 @@ class ProofOfWork:
         while True:
             with blockchain.lock:
                 pass
-                # TODO: Implementation of PoW algorithm
+                # TODO: Your code here
 
     def isValidProof(self, hash):
         """

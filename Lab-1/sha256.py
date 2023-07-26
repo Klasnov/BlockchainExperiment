@@ -56,7 +56,7 @@ def sha256(message):
     h6 = 0x1f83d9ab
     h7 = 0x5be0cd19
 
-    # TODO: Hash operations
+    # TODO: Your code here
     # Step 1: Pre-processing - Padding the message
     # Step 2: Process the message in 512-bit chunks
     #   - Break the message into 512-bit chunks
