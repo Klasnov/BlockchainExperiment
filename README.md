@@ -42,4 +42,4 @@ This project is licensed under the MIT License. Refer to the license file for mo
 
 ### Copyright
 
-The initial version of this lab course was created by Yanming Shao and is licensed under the MIT License.
+The initial version of this lab course was created by Kai Lei and Yanming Shao, while it's licensed under the MIT License.
